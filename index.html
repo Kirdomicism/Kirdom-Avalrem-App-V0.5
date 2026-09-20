@@ -292,7 +292,7 @@ textarea, select {
   <div class="header-title">Kirdom Avalrem</div>
   <div class="header-subtitle">Based on Kirdomicism Philosophy Ledger tracking</div>
 
-  <!-- Profile Card -->
+  <!-- Profile Dashboard Card -->
   <div class="card">
     <div class="profile-container">
       <div class="avatar-frame" onclick="document.getElementById('img-uploader').click()">👤</div>
@@ -314,10 +314,10 @@ textarea, select {
     </div>
   </div>
 
-  <!-- Main Formulation Card -->
+  <!-- Formulation Control Dashboard Engine -->
   <div class="card">
     <label class="section-label">Describe the Action</label>
-    <textarea id="action-desc" rows="3" placeholder="Enter transaction description..." oninput="updateLiveCalculation()"></textarea>
+    <textarea id="action-desc" rows="3" placeholder="Enter configuration statement data details here..." oninput="updateLiveCalculation()"></textarea>
 
     <label class="section-label">Action Orientation Polar Alignment</label>
     <div class="segmented-control">
@@ -325,19 +325,19 @@ textarea, select {
       <div class="pill-btn" id="polar-neg" onclick="togglePolarity(false)">Negative (-)<span>Risk Correction</span></div>
     </div>
 
-    <label class="section-label">Timing</label>
+    <label class="section-label">Timing Alignment Layer</label>
     <div class="segmented-control">
-      <div class="pill-btn active cyan" id="time-pre" onclick="toggleSegment('time', 'pre')">Pre-action<span>Forecast Item</span></div>
-      <div class="pill-btn" id="time-post" onclick="toggleSegment('time', 'post')">Post-action<span>Immediate Actual</span></div>
+      <div class="pill-btn active cyan" id="time-pre" onclick="toggleSegment('time', 'pre')">Pre-action<span>Forecast Item (-10₳)</span></div>
+      <div class="pill-btn" id="time-post" onclick="toggleSegment('time', 'post')">Post-action<span>Immediate Actual (+15₳)</span></div>
     </div>
 
-    <label class="section-label">Reliability</label>
+    <label class="section-label">Reliability Verification Multiplier</label>
     <div class="segmented-control">
-      <div class="pill-btn active purple" id="rel-self" onclick="toggleSegment('rel', 'self')">Self-evaluation<span>Standard</span></div>
-      <div class="pill-btn" id="rel-stake" onclick="toggleSegment('rel', 'stake')">Stakeholders<span>x1.2 Rate</span></div>
+      <div class="pill-btn active purple" id="rel-self" onclick="toggleSegment('rel', 'self')">Self-evaluation<span>Standard Rate</span></div>
+      <div class="pill-btn" id="rel-stake" onclick="toggleSegment('rel', 'stake')">Stakeholders<span>x1.2 Modifier</span></div>
     </div>
 
-    <label class="section-label">Category (12 Big Questions)</label>
+    <label class="section-label">Category Matrix Axis</label>
     <select id="action-category" onchange="updateLiveCalculation()">
       <option value="Personal/Self-Growth">1. Personal/Self-Growth</option>
       <option value="Team">2. Team</option>
@@ -353,7 +353,7 @@ textarea, select {
       <option value="World">12. World</option>
     </select>
 
-    <label class="section-label">Kirdomicism Principles Applied (+5 ₳ each)</label>
+    <label class="section-label">Kirdomicism Principles Applied (+5 ₳ baseline each)</label>
     <div class="principles-grid">
       <div class="principle-chip" id="p-anxergy" onclick="togglePrinciple('Anxergy')">Anxergy</div>
       <div class="principle-chip" id="p-dxterience" onclick="togglePrinciple('Dxterience')">Dxterience</div>
@@ -366,8 +366,3 @@ textarea, select {
 
     <div class="result-preview-box">
       <div id="preview-val-text" class="preview-value" style="color: var(--accent-cyan);">0 ₳</div>
-      <div style="font-size: 0.8rem; color: var(--text-muted);" id="preview-type-text">Calculated Engine Projection</div>
-    </div>
-  </div>
-
-
