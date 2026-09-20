@@ -1,1 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirdom Avalrem V0.5</title>
+    <style>
+        :root {
+            --bg-main: #0b111e; --bg-card: #141c2f; --bg-input: #1b263b;
+            --accent-cyan: #00d2ff; --accent-purple: #9d4edd;
+            --text-main: #ffffff; --text-muted: #748aa6;
+            --success: #00e676; --danger: #ff1744;
+        }
+        body { font-family: -apple-system, sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 480px; display: flex; flex-direction: column; gap: 20px; }
+        .header-title { text-align: center; font-size: 1.8rem; font-weight: 800; color: var(--accent-cyan); margin-bottom: 2px; }
+        .header-subtitle { text-align: center; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; text-transform: uppercase; }
+        .card { background-color: var(--bg-card); border-radius: 16px; padding: 24px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4); border: 1px solid #1f2d47; }
+        .section-label { font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 8px; display: block; }
+        .profile-container { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .avatar-frame { width: 60px; height: 60px; border-radius: 50%; background: var(--bg-input); display: flex; align-items: center; justify-content: center; border: 2px solid var(--accent-purple); cursor: pointer; }
+        .profile-name { background: transparent; border: none; border-bottom: 2px solid #243454; color: var(--text-main); font-size: 1.1rem; font-weight: bold; width: 100%; }
+        .wallet-stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #0f1626; padding: 15px; border-radius: 12px; }
+        .balance-value { font-size: 1.8rem; font-weight: bold; color: var(--accent-cyan); }
+        .badge-vault { display: flex; gap: 8px; flex-wrap: wrap; }
+        .badge-pill { background: var(--bg-input); padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; border: 1px solid #2e3f5c; }
+        textarea, select { width: 100%; background-color: var(--bg-input); border: 1px solid #243454; border-radius: 10px; color: var(--text-main); padding: 14px; box-sizing: border-box; margin-bottom: 20px; resize: none; }
+        .segmented-control { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .pill-btn { background: var(--bg-input); border: 1px solid #243454; color: var(--text-muted); padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; text-align: center; font-size: 0.85rem; }
+        .pill-btn span { display: block; font-size: 0.7rem; font-weight: normal; opacity: 0.7; }
+        .pill-btn.active.cyan { background: var(--accent-cyan); color: #000000; border-color: var(--accent-cyan); }
+        .pill-btn.active.purple { background: var(--accent-purple); color: #ffffff; border-color: var(--accent-purple); }
+        .principles-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 8px; margin-bottom: 20px; }
+        .principle-chip { background: var(--bg-input); border: 1px solid #243454; padding: 8px; border-radius: 8px; font-size: 0.8rem; text-align: center; cursor: pointer; color: var(--text-muted); }
+        .principle-chip.selected { background: rgba(157, 78, 221, 0.2); border-color: var(--accent-purple); color: #ffffff; }
+        .btn-action-trigger { background: var(--accent-purple); color: white; font-size: 1rem; font-weight: bold; border: none; border-radius: 10px; padding: 15px; width: 100%; cursor: pointer; }
+        .result-preview-box { background: #0f1626; border-radius: 12px; padding: 20px; text-align: center; margin-top: 15px; border: 1px dashed #243454; }
+        .preview-value { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
+        .active-item-box { background: #111928; border-radius: 12px; padding: 16px; margin-bottom: 12px; border-left: 4px solid var(--accent-cyan); cursor: pointer; }
+        .resolution-panel { background: rgba(0, 210, 255, 0.05); border: 1px solid var(--accent-cyan); border-radius: 12px; padding: 15px; margin-bottom: 20px; display: none; }
+        .resolution-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+        .btn-inline-success { background: var(--success); color: #000000; font-weight: bold; border: none; border-radius: 6px; padding: 10px; cursor: pointer;}
+        .btn-inline-fail { background: var(--danger); color: #ffffff; font-weight: bold; border: none; border-radius: 6px; padding: 10px; cursor: pointer;}
+        .ledger-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #1f2d47; }
+        .report-filter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .btn-download { background: #0284c7; color: white; border: none; border-radius: 8px; padding: 12px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 10px;}
+        .btn-exit { background: #334155; color: white; border: none; border-radius: 8px; padding: 12px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 5px;}
+        .footer-disclaimer { text-align: center; font-size: 0.7rem; color: var(--text-muted); margin-top: 25px; line-height: 1.4; border-top: 1px solid #1f2d47; padding-top: 15px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header-title">Kirdom Avalrem</div>
+    <div class="header-subtitle">Based on Kirdomicism Philosophy Ledger tracking</div>
+
+    <div class="card">
+        <div class="profile-container">
+            <div class="avatar-frame" onclick="document.getElementById('img-uploader').click()">👤</div>
+            <input type="file" id="img-uploader" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+            <div style="flex-grow: 1;">
+                <label class="section-label">Player Profile Name</label>
+                <input type="text" id="user-display-name" class="profile-name" value="Explorer Agent" oninput="persistStateData()">
+            </div>
+        </div>
+        <div class="wallet-stats-row">
+            <div><label class="section-label">Active Wallet Pool</label><div class="balance-value" id="current-balance">0 ₳</div></div>
+            <div><label class="section-label">Permanent Badges Vault</label><div class="badge-vault" id="badges-grid-box"></div></div>
+        </div>
+    </div>
+
+    <div class="card">
+        <label class="section-label">Describe the Action</label>
+        <textarea id="action-desc" rows="3" placeholder="Enter transaction description..." oninput="updateLiveCalculation()"></textarea>
+
+        <label class="section-label">Action Orientation Polar Alignment</label>
+        <div class="segmented-control">
+            <div class="pill-btn active cyan" id="polar-pos" onclick="togglePolarity(true)">Positive (+)<span>Proactive Growth</span></div>
+            <div class="pill-btn" id="polar-neg" onclick="togglePolarity(false)">Negative (-)<span>Risk Correction</span></div>
+        </div>
+
+        <label class="section-label">Timing</label>
+        <div class="segmented-control">
+            <div class="pill-btn active cyan" id="time-pre" onclick="toggleSegment('time', 'pre')">Pre-action<span>Forecast Item</span></div>
+            <div class="pill-btn" id="time-post" onclick="toggleSegment('time', 'post')">Post-action<span>Immediate Actual</span></div>
+        </div>
+
+        <label class="section-label">Reliability</label>
+        <div class="segmented-control">
+            <div class="pill-btn active purple" id="rel-self" onclick="toggleSegment('rel', 'self')">Self-evaluation<span>Standard</span></div>
+            <div class="pill-btn" id="rel-stake" onclick="toggleSegment('rel', 'stake')">Stakeholders<span>x1.2 Rate</span></div>
+        </div>
+
+        <label class="section-label">Category (12 Big Questions)</label>
+        <select id="action-category" onchange="updateLiveCalculation()">
+            <option value="Personal/Self-Growth">1. Personal/Self-Growth</option> <option value="Team">2. Team</option>
+            <option value="Organization">3. Organization</option> <option value="Process">4. Process</option>
+            <option value="Product/Service">5. Product/Service</option> <option value="Problem/Solution">6. Problem/Solution</option>
+            <option value="Completion">7. Completion</option> <option value="Uncertainty">8. Uncertainty</option>
+            <option value="Society">9. Society</option> <option value="Business">10. Business</option>
+            <option value="Country">11. Country</option> <option value="World">12. World</option>
+        </select>
+
+        <label class="section-label">Kirdomicism Principles Applied (+5 ₳ each)</label>
+        <div class="principles-grid">
+            <div class="principle-chip" id="p-anxergy" onclick="togglePrinciple('Anxergy')">Anxergy</div>
+            <div class="principle-chip" id="p-dxterience" onclick="togglePrinciple('Dxterience')">Dxterience</div>
+            <div class="principle-chip" id="p-exdysivity" onclick="togglePrinciple('Exdysivity')">Exdysivity</div>
+            <div class="principle-chip" id="p-avalremy" onclick="togglePrinciple('Avalremy')">Avalremy</div>
+            <div class="principle-chip" id="p-atamayata" onclick="togglePrinciple('Atamayata')">Atamayata</div>
+        </div>
+
+        <button class="btn-action-trigger" onclick="commitActionEntry()">Log System Entry</button>
+
+        <div class="result-preview-box">
+            <div id="preview-val-text" class="preview-value" style="color: var(--accent-cyan);">0 ₳</div>
 
