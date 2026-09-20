@@ -17,7 +17,7 @@
   --danger: #ff1744;
 }
 body {
-  font-family: -apple-system, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background-color: var(--bg-main);
   color: var(--text-main);
   margin: 0;
@@ -37,6 +37,7 @@ body {
   font-size: 1.8rem;
   font-weight: 800;
   color: var(--accent-cyan);
+  letter-spacing: 1px;
   margin-bottom: 2px;
 }
 .header-subtitle {
@@ -45,6 +46,7 @@ body {
   color: var(--text-muted);
   margin-bottom: 15px;
   text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 .card {
   background-color: var(--bg-card);
@@ -58,6 +60,7 @@ body {
   font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
+  letter-spacing: 1px;
   margin-bottom: 8px;
   display: block;
 }
@@ -72,11 +75,17 @@ body {
   height: 60px;
   border-radius: 50%;
   background: var(--bg-input);
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   border: 2px solid var(--accent-purple);
   cursor: pointer;
+}
+.avatar-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .profile-name {
   background: transparent;
@@ -85,7 +94,12 @@ body {
   color: var(--text-main);
   font-size: 1.1rem;
   font-weight: bold;
+  padding: 4px;
   width: 100%;
+}
+.profile-name:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
 }
 .wallet-stats-row {
   display: grid;
@@ -94,6 +108,7 @@ body {
   background: #0f1626;
   padding: 15px;
   border-radius: 12px;
+  margin-top: 10px;
 }
 .balance-value {
   font-size: 1.8rem;
@@ -110,6 +125,9 @@ body {
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
   border: 1px solid #2e3f5c;
 }
 textarea, select {
@@ -119,9 +137,16 @@ textarea, select {
   border-radius: 10px;
   color: var(--text-main);
   padding: 14px;
+  font-size: 0.95rem;
   box-sizing: border-box;
   margin-bottom: 20px;
+}
+textarea {
   resize: none;
+}
+textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
 }
 .segmented-control {
   display: grid;
@@ -139,12 +164,14 @@ textarea, select {
   cursor: pointer;
   text-align: center;
   font-size: 0.85rem;
+  transition: all 0.2s ease;
 }
 .pill-btn span {
   display: block;
   font-size: 0.7rem;
   font-weight: normal;
   opacity: 0.7;
+  margin-top: 2px;
 }
 .pill-btn.active.cyan {
   background: var(--accent-cyan);
@@ -170,6 +197,7 @@ textarea, select {
   font-size: 0.8rem;
   text-align: center;
   cursor: pointer;
+  transition: all 0.2s;
   color: var(--text-muted);
 }
 .principle-chip.selected {
@@ -187,6 +215,9 @@ textarea, select {
   padding: 15px;
   width: 100%;
   cursor: pointer;
+}
+.btn-action-trigger:hover {
+  background: #822faf;
 }
 .result-preview-box {
   background: #0f1626;
@@ -208,6 +239,16 @@ textarea, select {
   margin-bottom: 12px;
   border-left: 4px solid var(--accent-cyan);
   cursor: pointer;
+}
+.active-item-box:hover {
+  background: #162238;
+}
+.item-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
 }
 .resolution-panel {
   background: rgba(0, 210, 255, 0.05);
@@ -292,7 +333,7 @@ textarea, select {
   <div class="header-title">Kirdom Avalrem</div>
   <div class="header-subtitle">Based on Kirdomicism Philosophy Ledger tracking</div>
 
-  <!-- Profile Dashboard Card -->
+  <!-- Profile Card -->
   <div class="card">
     <div class="profile-container">
       <div class="avatar-frame" onclick="document.getElementById('img-uploader').click()">👤</div>
@@ -314,10 +355,10 @@ textarea, select {
     </div>
   </div>
 
-  <!-- Formulation Control Dashboard Engine -->
+  <!-- Main Formulation Card -->
   <div class="card">
     <label class="section-label">Describe the Action</label>
-    <textarea id="action-desc" rows="3" placeholder="Enter configuration statement data details here..." oninput="updateLiveCalculation()"></textarea>
+    <textarea id="action-desc" rows="3" placeholder="Enter transaction description..." oninput="updateLiveCalculation()"></textarea>
 
     <label class="section-label">Action Orientation Polar Alignment</label>
     <div class="segmented-control">
@@ -327,17 +368,17 @@ textarea, select {
 
     <label class="section-label">Timing Alignment Layer</label>
     <div class="segmented-control">
-      <div class="pill-btn active cyan" id="time-pre" onclick="toggleSegment('time', 'pre')">Pre-action<span>Forecast Item (-10₳)</span></div>
-      <div class="pill-btn" id="time-post" onclick="toggleSegment('time', 'post')">Post-action<span>Immediate Actual (+15₳)</span></div>
+      <div class="pill-btn active cyan" id="time-pre" onclick="toggleSegment('time', 'pre')">Pre-action<span>Forecast Item</span></div>
+      <div class="pill-btn" id="time-post" onclick="toggleSegment('time', 'post')">Post-action<span>Immediate Actual</span></div>
     </div>
 
     <label class="section-label">Reliability Verification Multiplier</label>
     <div class="segmented-control">
-      <div class="pill-btn active purple" id="rel-self" onclick="toggleSegment('rel', 'self')">Self-evaluation<span>Standard Rate</span></div>
-      <div class="pill-btn" id="rel-stake" onclick="toggleSegment('rel', 'stake')">Stakeholders<span>x1.2 Modifier</span></div>
+      <div class="pill-btn active purple" id="rel-self" onclick="toggleSegment('rel', 'self')">Self-evaluation<span>Standard</span></div>
+      <div class="pill-btn" id="rel-stake" onclick="toggleSegment('rel', 'stake')">Stakeholders<span>x1.2 Rate</span></div>
     </div>
 
-    <label class="section-label">Category Matrix Axis</label>
+    <label class="section-label">Category (12 Big Questions)</label>
     <select id="action-category" onchange="updateLiveCalculation()">
       <option value="Personal/Self-Growth">1. Personal/Self-Growth</option>
       <option value="Team">2. Team</option>
@@ -353,16 +394,5 @@ textarea, select {
       <option value="World">12. World</option>
     </select>
 
-    <label class="section-label">Kirdomicism Principles Applied (+5 ₳ baseline each)</label>
+    <label class="section-label">Kirdomicism Principles Applied (+5 ₳ each)</label>
     <div class="principles-grid">
-      <div class="principle-chip" id="p-anxergy" onclick="togglePrinciple('Anxergy')">Anxergy</div>
-      <div class="principle-chip" id="p-dxterience" onclick="togglePrinciple('Dxterience')">Dxterience</div>
-      <div class="principle-chip" id="p-exdysivity" onclick="togglePrinciple('Exdysivity')">Exdysivity</div>
-      <div class="principle-chip" id="p-avalremy" onclick="togglePrinciple('Avalremy')">Avalremy</div>
-      <div class="principle-chip" id="p-atamayata" onclick="togglePrinciple('Atamayata')">Atamayata</div>
-    </div>
-
-    <button class="btn-action-trigger" onclick="commitActionEntry()">Log System Entry</button>
-
-    <div class="result-preview-box">
-      <div id="preview-val-text" class="preview-value" style="color: var(--accent-cyan);">0 ₳</div>
