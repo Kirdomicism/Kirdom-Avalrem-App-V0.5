@@ -161,8 +161,8 @@
             opacity: 0.7;
             margin-top: 2px;
         }
-        .pill-btn.active.cyan { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); }
-        .pill-btn.active.purple { background: var(--accent-purple); color: #fff; border-color: var(--accent-purple); }
+        .pill-btn.active.cyan { background: var(--accent-cyan); color: #000000; border-color: var(--accent-cyan); }
+        .pill-btn.active.purple { background: var(--accent-purple); color: #ffffff; border-color: var(--accent-purple); }
         .principles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -183,7 +183,7 @@
         .principle-chip.selected {
             background: rgba(157, 78, 221, 0.2);
             border-color: var(--accent-purple);
-            color: #fff;
+            color: #ffffff;
         }
         .btn-action-trigger {
             background: var(--accent-purple);
@@ -216,17 +216,9 @@
         }
         .active-item-box:hover { background: #162238; }
         .item-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; }
-        .resolution-panel {
-            background: rgba(0, 210, 255, 0.05);
-            border: 1px solid var(--accent-cyan);
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 20px;
-            display: none;
-        }
         .resolution-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
-        .btn-inline-success { background: var(--success); color: #000; font-weight: bold; border: none; border-radius: 6px; padding: 10px; cursor: pointer;}
-        .btn-inline-fail { background: var(--danger); color: #fff; font-weight: bold; border: none; border-radius: 6px; padding: 10px; cursor: pointer;}
+        .btn-inline-success { background: var(--success); color: #000000; font-weight: bold; border: none; border-radius: 6px; padding: 10px; cursor: pointer;}
+        .btn-inline-fail { background: var(--danger); color: #ffffff; font-weight: bold; border: none; border-radius: 6px; padding: 10px; cursor: pointer;}
         .ledger-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #1f2d47; }
         .report-filter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
         .btn-download { background: #0284c7; color: white; border: none; border-radius: 8px; padding: 12px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 10px;}
@@ -276,6 +268,6 @@
 
     <!-- Main Formulation Engine -->
     <div class="card">
+        <label class="section-label">Describe the Action</label>
+        <textarea id="action-desc" rows="3" placeholder="Enter description details here... (e.g., I missed an appointment for business meeting)"></textarea>
 
-
-    
