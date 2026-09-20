@@ -1,399 +1,721 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kirdom Avalrem V0.5</title>
-<style>
-:root {
-  --bg-main: #0b111e;
-  --bg-card: #141c2f;
-  --bg-input: #1b263b;
-  --accent-cyan: #00d2ff;
-  --accent-purple: #9d4edd;
-  --text-main: #ffffff;
-  --text-muted: #748aa6;
-  --success: #00e676;
-  --danger: #ff1744;
-}
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background-color: var(--bg-main);
-  color: var(--text-main);
-  margin: 0;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-}
-.container {
-  width: 100%;
-  max-width: 480px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-.header-title {
-  text-align: center;
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: var(--accent-cyan);
-  letter-spacing: 1px;
-  margin-bottom: 2px;
-}
-.header-subtitle {
-  text-align: center;
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-bottom: 15px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.card {
-  background-color: var(--bg-card);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  border: 1px solid #1f2d47;
-  margin-bottom: 5px;
-}
-.section-label {
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 8px;
-  display: block;
-}
-.profile-container {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-.avatar-frame {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: var(--bg-input);
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--accent-purple);
-  cursor: pointer;
-}
-.avatar-frame img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.profile-name {
-  background: transparent;
-  border: none;
-  border-bottom: 2px solid #243454;
-  color: var(--text-main);
-  font-size: 1.1rem;
-  font-weight: bold;
-  padding: 4px;
-  width: 100%;
-}
-.profile-name:focus {
-  outline: none;
-  border-color: var(--accent-cyan);
-}
-.wallet-stats-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  background: #0f1626;
-  padding: 15px;
-  border-radius: 12px;
-  margin-top: 10px;
-}
-.balance-value {
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: var(--accent-cyan);
-}
-.badge-vault {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-.badge-pill {
-  background: var(--bg-input);
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  border: 1px solid #2e3f5c;
-}
-textarea, select {
-  width: 100%;
-  background-color: var(--bg-input);
-  border: 1px solid #243454;
-  border-radius: 10px;
-  color: var(--text-main);
-  padding: 14px;
-  font-size: 0.95rem;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-}
-textarea {
-  resize: none;
-}
-textarea:focus, select:focus {
-  outline: none;
-  border-color: var(--accent-cyan);
-}
-.segmented-control {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-.pill-btn {
-  background: var(--bg-input);
-  border: 1px solid #243454;
-  color: var(--text-muted);
-  padding: 12px;
-  border-radius: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  text-align: center;
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
-}
-.pill-btn span {
-  display: block;
-  font-size: 0.7rem;
-  font-weight: normal;
-  opacity: 0.7;
-  margin-top: 2px;
-}
-.pill-btn.active.cyan {
-  background: var(--accent-cyan);
-  color: #000000;
-  border-color: var(--accent-cyan);
-}
-.pill-btn.active.purple {
-  background: var(--accent-purple);
-  color: #ffffff;
-  border-color: var(--accent-purple);
-}
-.principles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 8px;
-  margin-bottom: 20px;
-}
-.principle-chip {
-  background: var(--bg-input);
-  border: 1px solid #243454;
-  padding: 8px;
-  border-radius: 8px;
-  font-size: 0.8rem;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s;
-  color: var(--text-muted);
-}
-.principle-chip.selected {
-  background: rgba(157, 78, 221, 0.2);
-  border-color: var(--accent-purple);
-  color: #ffffff;
-}
-.btn-action-trigger {
-  background: var(--accent-purple);
-  color: white;
-  font-size: 1rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  padding: 15px;
-  width: 100%;
-  cursor: pointer;
-}
-.btn-action-trigger:hover {
-  background: #822faf;
-}
-.result-preview-box {
-  background: #0f1626;
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  margin-top: 15px;
-  border: 1px dashed #243454;
-}
-.preview-value {
-  font-size: 2.5rem;
-  font-weight: bold;
-  margin: 10px 0;
-}
-.active-item-box {
-  background: #111928;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 12px;
-  border-left: 4px solid var(--accent-cyan);
-  cursor: pointer;
-}
-.active-item-box:hover {
-  background: #162238;
-}
-.item-meta {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  margin-bottom: 6px;
-}
-.resolution-panel {
-  background: rgba(0, 210, 255, 0.05);
-  border: 1px solid var(--accent-cyan);
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 20px;
-  display: none;
-}
-.resolution-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 12px;
-}
-.btn-inline-success {
-  background: var(--success);
-  color: #000000;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  padding: 10px;
-  cursor: pointer;
-}
-.btn-inline-fail {
-  background: var(--danger);
-  color: #ffffff;
-  font-weight: bold;
-  border: none;
-  border-radius: 6px;
-  padding: 10px;
-  cursor: pointer;
-}
-.ledger-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px 0;
-  border-bottom: 1px solid #1f2d47;
-}
-.report-filter-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-.btn-download {
-  background: #0284c7;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px;
-  font-weight: bold;
-  width: 100%;
-  cursor: pointer;
-  margin-top: 10px;
-}
-.btn-exit {
-  background: #334155;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px;
-  font-weight: bold;
-  width: 100%;
-  cursor: pointer;
-  margin-top: 5px;
-}
-.footer-disclaimer {
-  text-align: center;
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  margin-top: 25px;
-  line-height: 1.4;
-  border-top: 1px solid #1f2d47;
-  padding-top: 15px;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirdom Avalrem</title>
+    <style>
+        :root {
+            --bg-main: #0b111e;
+            --bg-card: #141c2f;
+            --bg-input: #1b263b;
+            --accent-cyan: #00d2ff;
+            --accent-purple: #9d4edd;
+            --text-main: #ffffff;
+            --text-muted: #748aa6;
+            --success: #00e676;
+            --danger: #ff1744;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 580px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .header-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+        .header-subtitle {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            border: 1px solid #1f2d47;
+        }
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .avatar-frame {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--bg-input);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 2px solid var(--accent-purple);
+        }
+        .avatar-frame img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-name {
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid #243454;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding: 4px;
+            width: 100%;
+        }
+        .profile-name:focus { outline: none; border-color: var(--accent-cyan); }
+        .wallet-stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background: #0f1626;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+        .balance-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--accent-cyan);
+        }
+        .badge-vault {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .badge-pill {
+            background: var(--bg-input);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            border: 1px solid #2e3f5c;
+        }
+        textarea, select {
+            width: 100%;
+            background-color: var(--bg-input);
+            border: 1px solid #243454;
+            border-radius: 10px;
+            color: var(--text-main);
+            padding: 14px;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        textarea { resize: none; }
+        textarea:focus, select:focus { outline: none; border-color: var(--accent-cyan); }
+        .segmented-control {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .pill-btn {
+            background: var(--bg-input);
+            border: 1px solid #243454;
+            color: var(--text-muted);
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+        .pill-btn span {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: normal;
+            opacity: 0.7;
+            margin-top: 2px;
+        }
+        .pill-btn.active.cyan { background: var(--accent-cyan); color: #000; border-color: var(--accent-cyan); }
+        .pill-btn.active.purple { background: var(--accent-purple); color: #fff; border-color: var(--accent-purple); }
+        .principles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .principle-chip {
+            background: var(--bg-input);
+            border: 1px solid #243454;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-muted);
+        }
+        .principle-chip.selected {
+            background: rgba(157, 78, 221, 0.2);
+            border-color: var(--accent-purple);
+            color: #fff;
+        }
+        .btn-action-trigger {
+            background: var(--accent-purple);
+            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .btn-action-trigger:hover { background: #822faf; }
+        .result-preview-box {
+            background: #0f1626;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-top: 15px;
+            border: 1px dashed #243454;
+        }
+        .preview-value { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
+        .active-item-box {
+            background: #111928;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--accent-cyan);
+            cursor: pointer;
+        }
+        .active-item-box:hover { background: #162238; }
+        .item-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 6px; }
+        .resolution-panel {
+            background: rgba(0, 210, 255, 0.05);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .resolution-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+        .btn-inline-success { background: var(--success); color: #000; font-weight: bold; border: none; border-radius: 6px; padding: 10px; cursor: pointer;}
+        .btn-inline-fail { background: var(--danger); color: #fff; font-weight: bold; border: none; border-radius: 6px; padding: 10px; cursor: pointer;}
+        .ledger-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #1f2d47; }
+        .report-filter-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .btn-download { background: #0284c7; color: white; border: none; border-radius: 8px; padding: 12px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 10px;}
+        .btn-exit { background: #334155; color: white; border: none; border-radius: 8px; padding: 12px; font-weight: bold; width: 100%; cursor: pointer; margin-top: 5px;}
+    </style>
 </head>
 <body>
+
 <div class="container">
-  <div class="header-title">Kirdom Avalrem</div>
-  <div class="header-subtitle">Based on Kirdomicism Philosophy Ledger tracking</div>
+    <div class="header-title">Kirdom Avalrem</div>
+    <div class="header-subtitle">Based on Kirdomicism Philosophy Ledger tracking</div>
 
-  <!-- Profile Card -->
-  <div class="card">
-    <div class="profile-container">
-      <div class="avatar-frame" onclick="document.getElementById('img-uploader').click()">👤</div>
-      <input type="file" id="img-uploader" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
-      <div style="flex-grow: 1;">
-        <label class="section-label">Player Profile Name</label>
-        <input type="text" id="user-display-name" class="profile-name" value="Explorer Agent" oninput="persistStateData()">
-      </div>
-    </div>
-    <div class="wallet-stats-row">
-      <div>
-        <label class="section-label">Active Wallet Pool</label>
-        <div class="balance-value" id="current-balance">0 ₳</div>
-      </div>
-      <div>
-        <label class="section-label">Permanent Badges Vault</label>
-        <div class="badge-vault" id="badges-grid-box"></div>
-      </div>
-    </div>
-  </div>
+    <!-- Profile Dashboard -->
+    <div class="card">
+        <div class="profile-container">
+            <div class="avatar-frame" onclick="document.getElementById('img-uploader').click()">
+                <img id="display-avatar" src="" style="display:none;">
+                <span id="avatar-icon" style="font-size: 1.5rem;">👤</span>
+            </div>
+            <input type="file" id="img-uploader" accept="image/*" style="display:none;" onchange="handleImageUpload(event)">
+            <div style="flex-grow: 1;">
+                <label class="section-label">Player Profile Name</label>
+                <input type="text" id="user-display-name" class="profile-name" value="Explorer Agent" oninput="persistStateData()">
+            </div>
+        </div>
 
-  <!-- Main Formulation Card -->
-  <div class="card">
-    <label class="section-label">Describe the Action</label>
-    <textarea id="action-desc" rows="3" placeholder="Enter transaction description..." oninput="updateLiveCalculation()"></textarea>
-
-    <label class="section-label">Action Orientation Polar Alignment</label>
-    <div class="segmented-control">
-      <div class="pill-btn active cyan" id="polar-pos" onclick="togglePolarity(true)">Positive (+)<span>Proactive Growth</span></div>
-      <div class="pill-btn" id="polar-neg" onclick="togglePolarity(false)">Negative (-)<span>Risk Correction</span></div>
+        <div class="wallet-stats-row">
+            <div>
+                <label class="section-label">Active Wallet Pool</label>
+                <div class="balance-value" id="current-balance">0 ₳</div>
+            </div>
+            <div>
+                <label class="section-label">Permanent Badges Vault</label>
+                <div class="badge-vault" id="badges-grid-box"></div>
+            </div>
+        </div>
     </div>
 
-    <label class="section-label">Timing Alignment Layer</label>
-    <div class="segmented-control">
-      <div class="pill-btn active cyan" id="time-pre" onclick="toggleSegment('time', 'pre')">Pre-action<span>Forecast Item</span></div>
-      <div class="pill-btn" id="time-post" onclick="toggleSegment('time', 'post')">Post-action<span>Immediate Actual</span></div>
+    <!-- Main Formulation Engine -->
+    <div class="card">
+        <label class="section-label">Describe the Action</label>
+        <textarea id="action-desc" rows="3" placeholder="Enter description details here... (e.g., I commit to complete the target goal by deadline)" oninput="updateLiveCalculation()"></textarea>
+
+        <label class="section-label">Action Orientation Polar Alignment</label>
+        <div class="segmented-control">
+            <div class="pill-btn active cyan" id="polar-pos" onclick="togglePolarity(true)">Positive (+)<span>Proactive / Growth</span></div>
+            <div class="pill-btn" id="polar-neg" onclick="togglePolarity(false)">Negative (-)<span>Risk / Failure Correction</span></div>
+        </div>
+
+        <label class="section-label">Timing</label>
+        <div class="segmented-control">
+            <div class="pill-btn active cyan" id="time-pre" onclick="toggleSegment('time', 'pre')">Pre-action<span>Forecast Item</span></div>
+            <div class="pill-btn" id="time-post" onclick="toggleSegment('time', 'post')">Post-action<span>Immediate Actual</span></div>
+        </div>
+
+        <label class="section-label">Reliability</label>
+        <div class="segmented-control">
+            <div class="pill-btn active purple" id="rel-self" onclick="toggleSegment('rel', 'self')">Self-evaluation<span>Standard Rate</span></div>
+            <div class="pill-btn" id="rel-stake" onclick="toggleSegment('rel', 'stake')">Stakeholders<span>x1.2 Multiplier</span></div>
+        </div>
+
+        <label class="section-label">Category (12 Big Questions)</label>
+        <select id="action-category" onchange="updateLiveCalculation()">
+            <option value="Personal/Self-Growth">1. Personal/Self-Growth</option>
+            <option value="Team">2. Team</option>
+            <option value="Organization">3. Organization</option>
+            <option value="Process">4. Process</option>
+            <option value="Product/Service">5. Product/Service</option>
+            <option value="Problem/Solution">6. Problem/Solution</option>
+            <option value="Completion">7. Completion</option>
+            <option value="Uncertainty">8. Uncertainty</option>
+            <option value="Society">9. Society</option>
+            <option value="Business">10. Business</option>
+            <option value="Country">11. Country</option>
+            <option value="World">12. World</option>
+        </select>
+
+        <label class="section-label">Kirdomicism Principles Applied (+5 ₳ base each)</label>
+        <div class="principles-grid">
+            <div class="principle-chip" id="p-anxergy" onclick="togglePrinciple('Anxergy')">Anxergy</div>
+            <div class="principle-chip" id="p-dxterience" onclick="togglePrinciple('Dxterience')">Dxterience</div>
+            <div class="principle-chip" id="p-exdysivity" onclick="togglePrinciple('Exdysivity')">Exdysivity</div>
+            <div class="principle-chip" id="p-avalremy" onclick="togglePrinciple('Avalremy')">Avalremy</div>
+            <div class="principle-chip" id="p-atamayata" onclick="togglePrinciple('Atamayata')">Atamayata</div>
+        </div>
+
+        <button class="btn-action-trigger" onclick="commitActionEntry()">Log System Entry</button>
+
+        <div class="result-preview-box">
+            <div id="preview-val-text" class="preview-value" style="color: var(--accent-cyan);">0 ₳</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 4px;" id="preview-type-text">Calculated Engine Projection</div>
+            <div style="font-size: 0.75rem; font-weight: bold; color: var(--accent-purple);" id="preview-multiplier-tags">Base Calculation Matrix Mode</div>
+        </div>
     </div>
 
-    <label class="section-label">Reliability Verification Multiplier</label>
-    <div class="segmented-control">
-      <div class="pill-btn active purple" id="rel-self" onclick="toggleSegment('rel', 'self')">Self-evaluation<span>Standard</span></div>
-      <div class="pill-btn" id="rel-stake" onclick="toggleSegment('rel', 'stake')">Stakeholders<span>x1.2 Rate</span></div>
+    <!-- Active Collapse Workspace -->
+    <div class="card resolution-panel" id="collapse-workspace">
+        <label class="section-label" style="color: var(--accent-cyan);">Active Resolution Workspace Panel</label>
+        <p style="font-size: 0.9rem; margin: 5px 0 15px 0; color: var(--text-muted);">You have selected a pending forecast item. Review it, adjust text details if necessary above, then select its final execution status to collapse it.</p>
+        <div id="selected-item-preview" style="background: var(--bg-input); padding: 12px; border-radius: 8px; font-size: 0.9rem; margin-bottom: 12px;"></div>
+        <div class="resolution-row">
+            <button class="btn-inline-success" onclick="resolveSelectedForecast(true)">Confirm Success</button>
+            <button class="btn-inline-fail" onclick="resolveSelectedForecast(false)">Report Failure</button>
+        </div>
+        <button class="btn-exit" style="background: #243454; margin-top: 10px;" onclick="cancelCollapse()">Cancel Resolution</button>
     </div>
 
-    <label class="section-label">Category (12 Big Questions)</label>
-    <select id="action-category" onchange="updateLiveCalculation()">
-      <option value="Personal/Self-Growth">1. Personal/Self-Growth</option>
-      <option value="Team">2. Team</option>
-      <option value="Organization">3. Organization</option>
-      <option value="Process">4. Process</option>
-      <option value="Product/Service">5. Product/Service</option>
-      <option value="Problem/Solution">6. Problem/Solution</option>
-      <option value="Completion">7. Completion</option>
-      <option value="Uncertainty">8. Uncertainty</option>
-      <option value="Society">9. Society</option>
-      <option value="Business">10. Business</option>
-      <option value="Country">11. Country</option>
-      <option value="World">12. World</option>
-    </select>
+    <!-- Follow Up Queue Section -->
+    <div class="card">
+        <label class="section-label">Follow-Up Action Items (Pending Forecasts)</label>
+        <div id="pending-actions-stack"></div>
+    </div>
 
-    <label class="section-label">Kirdomicism Principles Applied (+5 ₳ each)</label>
-    <div class="principles-grid">
+    <!-- Ledger Filter Dashboard -->
+    <div class="card">
+        <label class="section-label">Report Parameter Matrix Filtering</label>
+        <div class="report-filter-row">
+            <select id="filter-period" onchange="renderApplicationLayers()">
+                <option value="all">All Time History</option>
+                <option value="today">Today Only</option>
+                <option value="7days">Last 7 Days</option>
+            </select>
+            <select id="filter-category" onchange="renderApplicationLayers()">
+                <option value="all">All Categories</option>
+                <option value="Personal/Self-Growth">Personal/Self-Growth</option>
+                <option value="Team">Team</option>
+                <option value="Organization">Organization</option>
+                <option value="Process">Process</option>
+                <option value="Product/Service">Product/Service</option>
+                <option value="Problem/Solution">Problem/Solution</option>
+                <option value="Completion">Completion</option>
+                <option value="Uncertainty">Uncertainty</option>
+                <option value="Society">Society</option>
+                <option value="Business">Business</option>
+                <option value="Country">Country</option>
+                <option value="World">World</option>
+            </select>
+        </div>
+
+        <label class="section-label">Achieved Wallet Ledger Summary</label>
+        <div id="ledger-history-box" style="margin-bottom: 15px;"></div>
+        
+        <button class="btn-download" onclick="downloadFilteredTextReport()">Download Auditable Performance Report</button>
+        <button class="btn-exit" onclick="simulateAppClose()">Suspend Session & Exit</button>
+    </div>
+</div>
+
+<script>
+    let appEngineState = {
+        name: "Explorer Agent",
+        photo: "",
+        walletBalance: 0,
+        peakRecordValue: 0,
+        activeQueue: [],
+        historicalLedger: [],
+        selectedTiming: 'pre',
+        selectedReliability: 'self',
+        isPositivePolarity: true,
+        selectedPrinciples: [],
+        currentlyCollapsingId: null
+    };
+
+    const commitmentKeywords = ['commit', 'target', 'time', 'goal', 'by', 'schedule', 'deadline', 'achieve', 'complete'];
+
+    window.onload = function() {
+        const savedData = localStorage.getItem('kirdom_avalrem_master_data');
+        if (savedData) {
+            appEngineState = JSON.parse(savedData);
+            document.getElementById('user-display-name').value = appEngineState.name;
+            if (appEngineState.photo) {
+                const imgNode = document.getElementById('display-avatar');
+                imgNode.src = appEngineState.photo;
+                imgNode.style.display = 'block';
+                document.getElementById('avatar-icon').style.display = 'none';
+            }
+        }
+        togglePolarity(appEngineState.isPositivePolarity);
+        toggleSegment('time', appEngineState.selectedTiming);
+        toggleSegment('rel', appEngineState.selectedReliability);
+        renderApplicationLayers();
+        updateLiveCalculation();
+    };
+
+    function persistStateData() {
+        appEngineState.name = document.getElementById('user-display-name').value;
+        localStorage.setItem('kirdom_avalrem_master_data', JSON.stringify(appEngineState));
+    }
+
+    function handleImageUpload(e) {
+        const file = e.target.files;
+        if (file && file[0]) {
+            const dataReader = new FileReader();
+            dataReader.onload = function(event) {
+                appEngineState.photo = event.target.result;
+                const imgNode = document.getElementById('display-avatar');
+                imgNode.src = event.target.result;
+                imgNode.style.display = 'block';
+                document.getElementById('avatar-icon').style.display = 'none';
+                persistStateData();
+            };
+            dataReader.readAsDataURL(file[0]);
+        }
+    }
+
+    function togglePolarity(isPos) {
+        appEngineState.isPositivePolarity = isPos;
+        document.getElementById('polar-pos').classList.toggle('active', isPos);
+        document.getElementById('polar-pos').classList.toggle('cyan', isPos);
+        document.getElementById('polar-neg').classList.toggle('active', !isPos);
+        document.getElementById('polar-neg').classList.toggle('cyan', !isPos);
+        updateLiveCalculation();
+    }
+
+    function toggleSegment(type, option) {
+        if (type === 'time') {
+            appEngineState.selectedTiming = option;
+            document.getElementById('time-pre').classList.toggle('active', option === 'pre');
+            document.getElementById('time-pre').classList.toggle('cyan', option === 'pre');
+            document.getElementById('time-post').classList.toggle('active', option === 'post');
+            document.getElementById('time-post').classList.toggle('cyan', option === 'post');
+        } else {
+            appEngineState.selectedReliability = option;
+            document.getElementById('rel-self').classList.toggle('active', option === 'self');
+            document.getElementById('rel-self').classList.toggle('purple', option === 'self');
+            document.getElementById('rel-stake').classList.toggle('active', option === 'stake');
+            document.getElementById('rel-stake').classList.toggle('purple', option === 'stake');
+        }
+        updateLiveCalculation();
+    }
+
+    function togglePrinciple(principle) {
+        const idx = appEngineState.selectedPrinciples.indexOf(principle);
+        if (idx > -1) {
+            appEngineState.selectedPrinciples.splice(idx, 1);
+            document.getElementById('p-' + principle.toLowerCase()).classList.remove('selected');
+        } else {
+            appEngineState.selectedPrinciples.push(principle);
+            document.getElementById('p-' + principle.toLowerCase()).classList.add('selected');
+        }
+        updateLiveCalculation();
+    }
+
+    function calculateValues() {
+        const text = document.getElementById('action-desc').value.toLowerCase();
+        
+        let baseVal = 10 + Math.min(30, Math.floor(text.trim().length / 4));
+        baseVal += (appEngineState.selectedPrinciples.length * 5);
+
+        let multiplier = 1.0;
+        let foundKeywordsCount = 0;
+        commitmentKeywords.forEach(kw => { if (text.includes(kw)) foundKeywordsCount++; });
+        if (foundKeywordsCount >= 3) multiplier *= 1.3;
+
+        if (appEngineState.selectedReliability === 'stake') multiplier *= 1.2;
+
+        let finalValue = Math.round(baseVal * multiplier);
+        if (finalValue > 100) finalValue = 100;
+        if (finalValue < 10) finalValue = 10;
+
+        return appEngineState.isPositivePolarity ? finalValue : -finalValue;
+    }
+
+    function updateLiveCalculation() {
+        const calculatedResult = calculateValues();
+        const displaySign = calculatedResult > 0 ? '+' : '';
+        
+        document.getElementById('preview-val-text').innerText = `${displaySign}${calculatedResult} ₳`;
+        document.getElementById('preview-val-text').style.color = calculatedResult >= 0 ? 'var(--accent-cyan)' : 'var(--danger)';
+        
+        let textMeta = `Timing Mode: ${appEngineState.selectedTiming === 'pre' ? 'Forecast Model' : 'Immediate Actual'}`;
+        document.getElementById('preview-type-text').innerText = textMeta;
+    }
+
+    function commitActionEntry() {
+        const descEl = document.getElementById('action-desc');
+        if (!descEl.value.trim()) {
+            alert("Action context description requires structural data values.");
+            return;
+        }
+
+        const calculatedFinalScore = calculateValues();
+        const timestamp = new Date();
+        const generatedId = 'AVR-' + Math.floor(100000 + Math.random() * 900000);
+
+        if (appEngineState.selectedTiming === 'post') {
+            appEngineState.walletBalance += calculatedFinalScore;
+            if (appEngineState.walletBalance > appEngineState.peakRecordValue) {
+                appEngineState.peakRecordValue = appEngineState.walletBalance;
+            }
+            appEngineState.historicalLedger.unshift({
+                id: generatedId,
+                description: descEl.value,
+                finalYield: calculatedFinalScore,
+                statusLabel: 'IMMEDIATE ACTUAL',
+                category: document.getElementById('action-category').value,
+                timestampStr: timestamp.toLocaleString(),
+                rawDate: timestamp.toISOString()
+            });
+        } else {
+            appEngineState.activeQueue.push({
+                id: generatedId,
+                description: descEl.value,
+                projectedValue: calculatedFinalScore,
+                category: document.getElementById('action-category').value,
+                principles: [...appEngineState.selectedPrinciples],
+                reliability: appEngineState.selectedReliability,
+                timestampStr: timestamp.toLocaleString(),
+                rawDate: timestamp.toISOString()
+            });
+        }
+
+        descEl.value = '';
+        appEngineState.selectedPrinciples = [];
+        document.querySelectorAll('.principle-chip').forEach(c => c.classList.remove('selected'));
+        cancelCollapse();
+        persistStateData();
+        renderApplicationLayers();
+        updateLiveCalculation();
+    }
+
+    function initiateCollapseSelection(id) {
+        const targetItem = appEngineState.activeQueue.find(itm => itm.id === id);
+        if (!targetItem) return;
+
+        appEngineState.currentlyCollapsingId = id;
+        document.getElementById('action-desc').value = targetItem.description;
+        document.getElementById('action-category').value = targetItem.category;
+        
+        const panel = document.getElementById('collapse-workspace');
+        panel.style.display = 'block';
+        document.getElementById('selected-item-preview').innerText = `[${targetItem.id}] ${targetItem.description} (${targetItem.projectedValue} ₳)`;
+        
+        window.scrollTo({ top: panel.offsetTop, behavior: 'smooth' });
+        updateLiveCalculation();
+    }
+
+    function resolveSelectedForecast(isSuccess) {
+        if (!appEngineState.currentlyCollapsingId) return;
+
+        const idx = appEngineState.activeQueue.findIndex(i => i.id === appEngineState.currentlyCollapsingId);
+        if (idx === -1) return;
+
+        const originalItem = appEngineState.activeQueue[idx];
+        const finalCalculatedValue = calculateValues();
+        
+        let netOutcomeScore = isSuccess ? Math.abs(finalCalculatedValue) : -Math.abs(finalCalculatedValue);
+
+        appEngineState.walletBalance += netOutcomeScore;
+        if (appEngineState.walletBalance > appEngineState.peakRecordValue) {
+            appEngineState.peakRecordValue = appEngineState.walletBalance;
+        }
+
+        appEngineState.historicalLedger.unshift({
+            id: originalItem.id,
+            description: document.getElementById('action-desc').value,
+            finalYield: netOutcomeScore,
+            statusLabel: isSuccess ? 'COLLAPSED SUCCESS' : 'COLLAPSED FAILURE',
+            category: document.getElementById('action-category').value,
+            timestampStr: new Date().toLocaleString(),
+            rawDate: new Date().toISOString()
+        });
+
+        appEngineState.activeQueue.splice(idx, 1);
+        document.getElementById('action-desc').value = '';
+        cancelCollapse();
+        persistStateData();
+        renderApplicationLayers();
+        updateLiveCalculation();
+    }
+
+    function cancelCollapse() {
+        appEngineState.currentlyCollapsingId = null;
+        document.getElementById('collapse-workspace').style.display = 'none';
+    }
+
+    function renderApplicationLayers() {
+        document.getElementById('current-balance').innerText = appEngineState.walletBalance.toLocaleString() + ' ₳';
+
+        const peakValue = appEngineState.peakRecordValue;
+        const diamonds = Math.floor(peakValue / 100000);
+        const trophies = Math.floor((peakValue % 100000) / 10000);
+        const stars = Math.floor((peakValue % 10000) / 1000);
+
+        let badgeHtml = '';
+        if (diamonds > 0) badgeHtml += `<div class="badge-pill">💎 x${diamonds}</div>`;
+        if (trophies > 0) badgeHtml += `<div class="badge-pill">🏆 x${trophies}</div>`;
+        if (stars > 0) badgeHtml += `<div class="badge-pill">⭐ x${stars}</div>`;
+        if (!diamonds && !trophies && !stars) badgeHtml = `<span style="font-size:0.8rem;color:var(--text-muted)">Vault Clean</span>`;
+        document.getElementById('badges-grid-box').innerHTML = badgeHtml;
+
+        const activeContainer = document.getElementById('pending-actions-stack');
+        activeContainer.innerHTML = appEngineState.activeQueue.length === 0 ? '<div style="color:var(--text-muted);font-size:0.85rem;padding:5px;">No active forecasts pending resolution.</div>' : '';
+
+        appEngineState.activeQueue.forEach(item => {
+            activeContainer.innerHTML += `
+                <div class="active-item-box" onclick="initiateCollapseSelection('${item.id}')">
+                    <div class="item-meta">
+                        <span>ID: ${item.id}</span>
+                        <span>${item.timestampStr}</span>
+                    </div>
+                    <div style="font-weight:600; margin-bottom:4px;">${item.description}</div>
+                    <div style="font-size:0.8rem; color:var(--accent-cyan)">
+                        Projected Base: ${item.projectedValue > 0 ? '+' : ''}${item.projectedValue} ₳ | Category: ${item.category}
+                    </div>
+                    <div style="font-size:0.7rem; color:var(--text-muted); margin-top:5px; text-transform:uppercase;">👉 Click item to collapse resolution</div>
+                </div>
+            `;
+        });
+
+        const periodFilter = document.getElementById('filter-period').value;
+        const categoryFilter = document.getElementById('filter-category').value;
+        const historyContainer = document.getElementById('ledger-history-box');
+        
+        historyContainer.innerHTML = '';
+        const now = new Date();
+
+        const filteredItems = appEngineState.historicalLedger.filter(log => {
+            if (categoryFilter !== 'all' && log.category !== categoryFilter) return false;
+            
+            if (periodFilter === 'today') {
+                const logDate = new Date(log.rawDate);
+                return logDate.toDateString() === now.toDateString();
+            } else if (periodFilter === '7days') {
+                const logDate = new Date(log.rawDate);
+                const diffTime = Math.abs(now - logDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays <= 7;
+            }
+            return true;
+        });
+
+        if (filteredItems.length === 0) {
+            historyContainer.innerHTML = '<div style="color:var(--text-muted);font-size:0.85rem;padding:10px 0;">No matching ledger activities found.</div>';
+            return;
+        }
+
+        filteredItems.forEach(log => {
+            let itemColor = log.finalYield >= 0 ? 'var(--success)' : 'var(--danger)';
+            historyContainer.innerHTML += `
+                <div class="ledger-row">
+                    <div style="max-width:75%;">
+                        <div style="font-size:0.7rem; color:var(--text-muted);">${log.id} | ${log.timestampStr}</div>
+                        <div style="font-size:0.9rem; font-weight:500;">${log.description}</div>
+                        <div style="font-size:0.75rem; color:var(--accent-purple)">${log.category}</div>
+                    </div>
+                    <div style="text-align:right; font-weight:bold; color:${itemColor}">
+                        <div>${log.finalYield > 0 ? '+' : ''}${log.finalYield} ₳</div>
+                        <div style="font-size:0.65rem; opacity:0.8; text-transform:uppercase;">${log.statusLabel}</div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function downloadFilteredTextReport() {
+        const periodFilter = document.getElementById('filter-period').value;
+        const categoryFilter = document.getElementById('filter-category').value;
+        const now = new Date();
+
+        let totalIncreases = 0;
+        let totalReductions = 0;
+        let ledgerTextBlocks = '';
+
+        appEngineState.historicalLedger.forEach(log => {
+            if (categoryFilter !== 'all' && log.category !== categoryFilter) return;
+            if (periodFilter === 'today' && new Date(log.rawDate).toDateString() !== now.toDateString()) return;
+            if (periodFilter === '7days') {
+                const logDate = new Date(log.rawDate);
+                if (Math.ceil(Math.abs(now - logDate) / (1000 * 60 * 60 * 24)) > 7) return;
+            }
+
+            if (log.finalYield >= 0) totalIncreases += log.finalYield;
+            else totalReductions += Math.abs(log.finalYield);
+
+            ledgerTextBlocks += `[${log.id}] - ${log.timestampStr}\nAction Context: ${log.description}\nCategory Metrics: ${log.category}\nExecution Status: ${log.statusLabel}\nNet Calculation Yield Result: ${log.finalYield > 0 ? '+' : ''}${log.finalYield} ₳\n---------------------------------------------\n`;
+        });
+
+        const reportCardText = `============================================================\n               KIRDOM AVALREM PERFORMANCE REPORT\n============================================================\n🎯 PLAYER PROFILE NAME: ${appEngineState.name}\n📅 SELECTED REPORT PERIOD FILTER: ${periodFilter.toUpperCase()}\n🗂️ SELECTED KIRDOMICISM CATEGORY: ${categoryFilter.toUpperCase()}\n\n📈 METRICS BALANCES SUMMARY:\n---------------------------------------------\n🟢 Cumulative Avalrem Increase Summary:  +${totalIncreases} ₳\n🔴 Cumulative Avalrem Reduction Summary: -${totalReductions} ₳\n⚖️ Net Period Score Adjustment Margin:   ${(totalIncreases - totalReductions) >= 0 ? '+' : ''}${totalIncreases - totalReductions} ₳\n💰 Ultimate Total Wallet Balance Asset:    ${appEngineState.walletBalance} ₳\n\n🏆 LOCKED MILESTONE REWARD TRACKERS:\n⭐ Stars (1k Peak): ${Math.floor(appEngineState.peakRecordValue / 1000)}\n🏆 Trophies (10k Peak): ${Math.floor(appEngineState.peakRecordValue / 10000)}\n💎 Diamonds (100k Peak): ${Math.floor(appEngineState.peakRecordValue / 100000)}\n\n📋 COMPREHENSIVE PERFORMANCE LEDGER AUDITS:\n---------------------------------------------\n${ledgerTextBlocks || 'No ledger events recorded inside parameter filters.'}\nGenerated programmatically via Kirdom Avalrem App Performance Systems Engine.\n============================================================`;
+
+        const elementBlob = new Blob([reportCardText], { type: 'text/plain' });
+        const downloadAnchor = document.createElement('a');
+        downloadAnchor.download = `Kirdom_Avalrem_Report_${periodFilter}.txt`;
+        downloadAnchor.href = window.URL.createObjectURL(elementBlob);
+        downloadAnchor.click();
+    }
+
+    function simulateAppClose() {
+        alert("Session state variables successfully committed to database storage framework! Safe to suspend window execution operations now.");
+    }
+</script>
+</body>
+</html>
